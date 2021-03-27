@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/USACE/go-consequences/compute"
+	"github.com/USACE/go-consequences/consequences"
+	"github.com/USACE/go-consequences/structureprovider"
 )
 
 //Config describes the configuration settings for go-consequences.
@@ -36,7 +38,9 @@ func main() {
 				} else {
 					//s, _ := compute.FromFile(fp[0])
 					//fmt.Fprintf(w, s)
-					compute.StreamFromFile(fp[0], w)
+					nsp := structureprovider.InitNSISP()
+					w2 := consequences.InitStreamingResultsWriter(w)
+					compute.StreamFromFileAbstract(fp[0], nsp, w2)
 				}
 			}
 		})

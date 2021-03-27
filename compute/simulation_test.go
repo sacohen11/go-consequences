@@ -1,30 +1,13 @@
 package compute
 
 import (
-	"fmt"
 	"testing"
 
-	"github.com/USACE/go-consequences/nsi"
-	"github.com/USACE/go-consequences/structures"
+	"github.com/USACE/go-consequences/consequences"
+	"github.com/USACE/go-consequences/hazardproviders"
+	"github.com/USACE/go-consequences/structureprovider"
 )
 
-func Test_Compute_NSI(t *testing.T) {
-	t.Log("Starting Test")
-	s, _ := FromFile("/workspaces/Go_Consequences/data/3782_COG.tif")
-	fmt.Println(s)
-}
-func TestConvertNSIFeatureToStructure(t *testing.T) {
-	bbox := "-81.58418,30.25165,-81.58161,30.26939,-81.55898,30.26939,-81.55281,30.24998,-81.58418,30.25165"
-	//get a map of all occupancy types
-	m := structures.OccupancyTypeMap()
-	//define a default occtype in case of emergancy
-	defaultOcctype := m["RES1-1SNB"]
-	nsi.GetByBboxStream(bbox, func(f nsi.NsiFeature) {
-		//convert nsifeature to structure
-		str := NsiFeaturetoStructure(f, m, defaultOcctype)
-		fmt.Println(str.OccType.Name)
-	})
-}
 func TestComputeEAD(t *testing.T) {
 	d := []float64{1, 2, 3, 4}
 	f := []float64{.75, .5, .25, 0}
@@ -49,4 +32,13 @@ func TestComputeSpecialEAD(t *testing.T) {
 	if val != 1.875 {
 		t.Errorf("computeEAD() yeilded %f; expected %f", val, 1.875)
 	}
+}
+func Test_StreamAbstract(t *testing.T) {
+	nsp := structureprovider.InitSHP("/workspaces/Go_Consequences/data/harvey/ORNLcentroids_LBattributes.shp")
+	root := "/workspaces/Go_Consequences/data/HarrisCounty_RiverineDG_08282017_4326"
+	filepath := root + ".tif"
+	w := consequences.InitStreamingResultsWriterFromFile(root + "_consequences.json")
+	defer w.Close()
+	dfr := hazardproviders.Init(filepath)
+	StreamAbstract(dfr, nsp, w)
 }
