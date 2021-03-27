@@ -4,4 +4,3 @@ github.com/HenryGeorgist/go-statistics v0.0.0-20210320023908-0c2f15b2445f h1:bUO
 github.com/HenryGeorgist/go-statistics v0.0.0-20210320023908-0c2f15b2445f/go.mod h1:nRh6hALDQyZeIOkky6G6Uq+t4nUBWH4BnIBpKEkmxnI=
 github.com/dewberry/gdal v0.3.1 h1:scISo4PeC3LxjVnG2E5SYIHwbCI2LzcKvoeqbnoQNVc=
 github.com/dewberry/gdal v0.3.1/go.mod h1:3knazvb7vQFrFAl7+iWI34xP0iiRS7iRFZ1C4Jfwx7Q=
-
